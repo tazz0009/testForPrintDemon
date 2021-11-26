@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("#getPrintStatus").click(function (e) {
+          e.preventDefault();
+          ajaxGet();
+        });
+        $("#postPrintList").click(function (e) {
+          e.preventDefault();
+          ajaxPost();
+        });
+        function ajaxGet() {
+          $.ajax({
+            url: "http://localhost:8099/getPrintStatus",
+            success: function (result) {
+              $("#apiResponse").html(result);
+            }
+          });
+        }
+        function ajaxPost() {
+          $.ajax({
+            url: "http://localhost:8099/postPrintList",
+            async: true, // false 일 경우 동기 요청으로 변경
+            type: "POST", // GET, PUT
+            data: {
+              arr: [1, 2, 3],
+              name: "tazz009"
+            }, // 전송할 데이터
+            dataType: "text", // xml, json, script, html
+            beforeSend: function (result) {}, // 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+            success: function (result) {
+              $("#apiResponse").html(result);
+            }, // 요청 완료 시
+            error: function (result) {}, // 요청 실패.
+            complete: function (result) {} // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
+          });
+        }
+      });
+    </script>
+    <title>Document</title>
+  </head>
+  <body>
+    <br />
+    <br />
+    <div class="container">
+      <button class="btn btn-primary" id="getPrintStatus">
+        Get Print Status
+      </button>
+      <button class="btn btn-primary" id="postPrintList">
+        Get Print Status
+      </button>
+      <h1 id="apiResponse"></h1>
+    </div>
+  </body>
+</html>
